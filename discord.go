@@ -64,7 +64,7 @@ func discordCheck(ids ...string) {
 			pinmap[id] = &messageSet{Items: make([]*discordgo.Message, 0), Set: make(map[string]bool)}
 		}
 		pins, err := s.ChannelMessagesPinned(id)
-		p(err)
+		check(err)
 		for _, x := range pins {
 			if _, ok := pinmap[id].Set[x.ID]; !ok {
 				pinmap[id].Set[x.ID] = true
@@ -74,7 +74,7 @@ func discordCheck(ids ...string) {
 		}
 	}
 	data, err := json.Marshal(pinmap)
-	p(err)
+	check(err)
 	check(ioutil.WriteFile("store.json", data, 0666))
 }
 
