@@ -52,7 +52,7 @@ func discordStart() {
 	defer func() {tick.Stop()}()
 	go func() {
 		for range tick.C {
-			discordCheckAll(guild.Channels, 10*time.Second)
+			discordCheckAll(guild.Channels, 3*time.Second)
 		}
 	}()
 }
