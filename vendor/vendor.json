@@ -9,18 +9,6 @@
 			"revisionTime": "2017-10-10T16:21:53Z"
 		},
 		{
-			"checksumSHA1": "2UmMbNHc8FBr98mJFN1k8ISOIHk=",
-			"path": "github.com/garyburd/redigo/internal",
-			"revision": "b389d5392e340092642eec4e36754e0280ad1f8e",
-			"revisionTime": "2017-11-27T19:16:32Z"
-		},
-		{
-			"checksumSHA1": "YdFePCOhDZ/jM44yDKwRaOKJM0g=",
-			"path": "github.com/garyburd/redigo/redis",
-			"revision": "b389d5392e340092642eec4e36754e0280ad1f8e",
-			"revisionTime": "2017-11-27T19:16:32Z"
-		},
-		{
 			"checksumSHA1": "E19hh/CB0jwvoCEdmkDNGY/X5Yo=",
 			"path": "github.com/go-chi/chi",
 			"revision": "687d2792aedd8e8ac3bbd8592cf55b91d7ea8ce9",
@@ -37,6 +25,18 @@
 			"path": "github.com/gorilla/websocket",
 			"revision": "b89020ee79b89a7f932c5617d218fc06db382f53",
 			"revisionTime": "2017-12-01T01:43:01Z"
+		},
+		{
+			"checksumSHA1": "IfZcD4U1dtllJKlPNeD2aU4Jn98=",
+			"path": "github.com/lib/pq",
+			"revision": "83612a56d3dd153a94a629cd64925371c9adad78",
+			"revisionTime": "2017-11-26T05:04:59Z"
+		},
+		{
+			"checksumSHA1": "ATnwV0POluBNQEMjPdylodz0oK0=",
+			"path": "github.com/lib/pq/oid",
+			"revision": "83612a56d3dd153a94a629cd64925371c9adad78",
+			"revisionTime": "2017-11-26T05:04:59Z"
 		},
 		{
 			"checksumSHA1": "TwxAhBcGuCzWA6H3FvJE1XVZsxo=",

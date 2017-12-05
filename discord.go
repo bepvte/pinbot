@@ -3,7 +3,6 @@ package main
 import (
 	"github.com/bwmarrin/discordgo"
 	"os"
-	"github.com/garyburd/redigo/redis"
 	"encoding/json"
 	"time"
 	"strconv"
@@ -32,11 +31,15 @@ func discordStart() {
 
 	time.Sleep(5*time.Second)
 
-	guild, err = s.State.Guild("99293578949316608")
+	guild, err = s.State.Guild(os.Getenv("SERVER"))
 	p(err)
 
-	resp, err := redis.Bytes(db.Do("GET", "state"))
-	if !check(err) {
+	reply, err := db.Query("SELECT myblob FROM mydata WHERE myname = 'store")
+	p(err)
+	if reply.Next() {
+		var resp []byte
+		err := reply.Scan(&resp)
+		p(err)
 		json.Unmarshal(resp, &pinmap)
 	}
 	discordCheck(guild.Channels[0].ID)
@@ -60,7 +63,7 @@ func discordCheck(ids ...string) {
 	}
 	data, err := json.Marshal(pinmap)
 	p(err)
-	_, err = db.Do("SET", "state", data)
+	_, err = db.Exec("INSERT INTO mydata VALUES ('store', $1) ON CONFLICT (myname) DO UPDATE SET myblob = $1", data)
 	check(err)
 }
 
