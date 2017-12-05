@@ -1,34 +1,32 @@
 {{template "header" .Current.Name}}
-        <div class="columns">
-            <div class="column is-one-third">
-{{template "tabs" .Channels}}
-            </div>
+<div class="columns">
+    <div class="column is-one-third">
+    {{template "tabs" .Channels}}
+    </div>
+<div class="column">
 {{range .Pins}}
-        <div class="column">
-            <div class="box">
-                <article class="media">
-                    <figure class="media-left">
-                        <p class="image is-64x64">
-                            <img src="https://cdn.discordapp.com/avatars/{{.Author.ID}}/{{.Author.Avatar}}.png">
-                        </p>
-                    </figure>
-                    <div class="media-content">
-                        <p>
-                            <strong>{{.Author.Username}}</strong> <small>{{.Timestamp.Parse.Format "Jan _2 15:04:05"}}</small>
-                            <br>
-                            {{.ContentWithMentionsReplaced}}
-                        </p>
-                    {{if .Attachments}}
-                        <br>
-                        <div class="columns" style="width: 70%">
-                        {{range .Attachments}}
-                            <div class="column"><img src="{{.URL}}"></div>
-                        {{end}}
-                        </div>
-                    {{end}}
-                    </div>
-                </article>
+    <div class="box">
+        <article class="media">
+            <figure class="media-left">
+                <p class="image is-64x64">
+                    <img src="https://cdn.discordapp.com/avatars/{{.Author.ID}}/{{.Author.Avatar}}.png">
+                </p>
+            </figure>
+            <div class="media-content">
+                <p>
+                    <strong>{{.Author.Username}}</strong> <small>{{.Timestamp.Parse.Format "Jan _2 15:04:05"}}</small>
+                    <br> {{.ContentWithMentionsReplaced}}
+                </p>
+            {{if .Attachments}}
+                <br>
+                <div class="columns" style="width: 70%">
+                {{range .Attachments}}
+                    <div class="column"><img src="{{.URL}}"></div>
+                {{end}}
+                </div>
+            {{end}}
             </div>
-        </div>
-{{end}}
-{{template "footer"}}
+        </article>
+    </div>
+</div>
+{{end}} {{template "footer"}}
