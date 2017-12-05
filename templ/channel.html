@@ -3,7 +3,8 @@
     <div class="column is-2">
     {{template "tabs" .Channels}}
     </div>
-    <div class="messages-wrapper column">
+    <div class="messages-wrapper column yui3-classreset">
+        <link rel="stylesheet" href="https://discordapp.com/assets/e48f732a6c82204fbb32.css">
     {{range .Pins}}
         <div class="message-group hide-overflow">
             <div class="avatar-large animate"
@@ -12,7 +13,8 @@
                 <div class="message first" style="background-color: unset;">
                     <div class="body">
                         <h2 class="old-h2"><span class="username-wrapper"><strong
-                                class="user-name">{{.Author.Username}}#{{.Author.Discriminator}}</strong></span><span class="highlight-separator"> - </span><span
+                                class="user-name">{{.Author.Username}}#{{.Author.Discriminator}}</strong></span><span
+                                class="highlight-separator"> - </span><span
                                 class="timestamp">{{.Timestamp.Parse.Format "Jan _2 15:04:05"}}</span></h2>
                         <div class="message-text">
                             <div class="markup">{{.ContentWithMentionsReplaced}}</div>
@@ -22,7 +24,8 @@
                     <div class="accessory">
                     {{range .Attachments}}
                         <div class="attachment-image">
-                            <a href="{{.URL}}" target="_blank" rel="noreferrer"><img class="image" src="{{.URL}}" href="{{.URL}}"></a>
+                            <a href="{{.URL}}" target="_blank" rel="noreferrer"><img class="image" src="{{.URL}}"
+                                                                                     href="{{.URL}}"></a>
                         </div>
                     {{end}}
                     </div>
