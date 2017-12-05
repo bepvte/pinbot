@@ -34,7 +34,7 @@ func discordStart() {
 	guild, err = s.State.Guild(os.Getenv("SERVER"))
 	p(err)
 
-	reply, err := db.Query("SELECT myblob FROM mydata WHERE myname = 'store")
+	reply, err := db.Query("SELECT myblob FROM mydata WHERE myname = 'store'")
 	p(err)
 	if reply.Next() {
 		var resp []byte
