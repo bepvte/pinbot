@@ -35,3 +35,7 @@ func channelHandler(w http.ResponseWriter, r *http.Request) {
 		failed(w, err)
 	}
 }
+
+func reloadhandler(w http.ResponseWriter, r *http.Request) {
+	checkTimes = make(map[string]time.Time)
+}

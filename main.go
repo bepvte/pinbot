@@ -36,6 +36,7 @@ func main() {
 	r.Get("/favicon.ico", http.NotFound)
 	r.Get("/", indexHandler)
 	r.Get("/{ID:\\d+}", channelHandler)
+	r.Get("/reload", reloadhandler)
 
 
 	log.Println("Listening on port :"+os.Getenv("PORT"))
