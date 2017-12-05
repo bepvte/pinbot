@@ -1,11 +1,13 @@
 {{define "tabs"}}
-<aside class="menu">
-    <p class="menu-label">
-        Pinbot
-    </p>
-    <ul class="menu-list">
-    {{range .}}{{if eq .Type 0}}
-        <li><a href="/{{.ID}}">{{.Name}}</a></li>{{end}}{{end}}
-    </ul>
-</aside>
+<div class="container">
+    <aside class="menu">
+        <p class="menu-label">
+            Pinbot
+        </p>
+        <ul class="menu-list">
+        {{range .}}{{if eq .Type 0}}
+            <li><a href="/{{.ID}}">{{.Name}}</a></li>{{end}}{{end}}
+        </ul>
+    </aside>
+</div>
 {{end}}
