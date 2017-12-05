@@ -2,12 +2,11 @@ package main
 
 import (
 	"github.com/go-chi/chi"
+	"github.com/go-chi/chi/middleware"
+	"html/template"
 	"log"
 	"net/http"
 	"os"
-	"html/template"
-	"github.com/go-chi/chi/middleware"
-	"database/sql"
 )
 
 var t *template.Template
@@ -26,7 +25,6 @@ func main() {
 	r.Get("/{ID:\\d+}", channelHandler)
 	r.Get("/reload", reloadhandler)
 
-
-	log.Println("Listening on port :"+os.Getenv("PORT"))
-	log.Fatalln(http.ListenAndServe(":" + os.Getenv("PORT"), r))
+	log.Println("Listening on port :" + os.Getenv("PORT"))
+	log.Fatalln(http.ListenAndServe(":"+os.Getenv("PORT"), r))
 }

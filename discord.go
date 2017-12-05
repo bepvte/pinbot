@@ -1,27 +1,26 @@
 package main
 
 import (
-	"github.com/bwmarrin/discordgo"
-	"os"
 	"encoding/json"
-	"time"
-	"strconv"
-	"sort"
-	"log"
+	"github.com/bwmarrin/discordgo"
 	"io/ioutil"
+	"log"
+	"os"
+	"sort"
+	"strconv"
+	"time"
 )
 
 type messageArray []*discordgo.Message
 
-type messageSet struct{
+type messageSet struct {
 	Items messageArray
-	Set map[string]bool
+	Set   map[string]bool
 }
 
 var s *discordgo.Session
 var pinmap = map[string]*messageSet{} //Map of CHANNEL ID to STRUCT with MAP OF MESSAGE ID TO BOOLEAN and SORTED ARRAY OF MESSAGES
 var guild *discordgo.Guild
-
 
 func discordStart() {
 	var err error
@@ -49,7 +48,7 @@ func discordStart() {
 	}
 
 	tick := time.NewTicker(time.Hour)
-	defer func() {tick.Stop()}()
+	defer func() { tick.Stop() }()
 	go func() {
 		for range tick.C {
 			discordCheckAll(guild.Channels, 3*time.Second)

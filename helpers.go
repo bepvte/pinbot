@@ -1,9 +1,9 @@
 package main
 
 import (
+	"io"
 	"log"
 	"net/http"
-	"io"
 )
 
 func check(err error) bool {
@@ -25,4 +25,3 @@ func p(err error) {
 		panic(err)
 	}
 }
-

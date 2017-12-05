@@ -1,17 +1,17 @@
 package main
 
 import (
-	"net/http"
 	"github.com/bwmarrin/discordgo"
 	"github.com/go-chi/chi"
 	"io"
+	"net/http"
 	"time"
 )
 
-type channelPage struct{
-	Current *discordgo.Channel
+type channelPage struct {
+	Current  *discordgo.Channel
 	Channels []*discordgo.Channel
-	Pins messageArray
+	Pins     messageArray
 }
 
 func indexHandler(w http.ResponseWriter, r *http.Request) {
