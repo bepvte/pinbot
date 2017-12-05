@@ -47,6 +47,7 @@ func discordStart() {
 		p(json.Unmarshal(file, &pinmap))
 	}
 
+	discordCheckAll(guild.Channels, 0)
 	tick := time.NewTicker(time.Hour)
 	defer func() { tick.Stop() }()
 	go func() {
