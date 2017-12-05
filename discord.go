@@ -8,6 +8,7 @@ import (
 	"strconv"
 	"sort"
 	"log"
+	"io/ioutil"
 )
 
 type messageArray []*discordgo.Message
@@ -40,18 +41,13 @@ func discordStart() {
 
 	<-c
 	log.Println("Ready recieved")
-	guild, err = s.Guild(os.Getenv("SERVER"))
+	guild, err = s.State.Guild(os.Getenv("SERVER"))
 	p(err)
 
-	reply, err := db.Query("SELECT myblob FROM mydata WHERE myname = 'store'")
-	p(err)
-	if reply.Next() {
-		var resp []byte
-		err := reply.Scan(&resp)
-		p(err)
-		json.Unmarshal(resp, &pinmap)
+	file, err := ioutil.ReadFile("store.json")
+	if err == nil {
+		p(json.Unmarshal(file, &pinmap))
 	}
-	time.Sleep(5*time.Second)
 }
 
 func discordCheck(ids ...string) {
@@ -72,8 +68,7 @@ func discordCheck(ids ...string) {
 	}
 	data, err := json.Marshal(pinmap)
 	p(err)
-	_, err = db.Exec("INSERT INTO mydata VALUES ('store', $1) ON CONFLICT (myname) DO UPDATE SET myblob = $1", data)
-	check(err)
+	check(ioutil.WriteFile("store.json", data, 0666))
 }
 
 func (by messageArray) Len() int {
