@@ -29,8 +29,6 @@ func discordStart() {
 
 	p(s.Open())
 
-	time.Sleep(5*time.Second)
-
 	guild, err = s.State.Guild(os.Getenv("SERVER"))
 	p(err)
 
