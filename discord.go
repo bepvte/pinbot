@@ -7,6 +7,8 @@ import (
 	"time"
 	"strconv"
 	"sort"
+	"sync"
+	"log"
 )
 
 type messageArray []*discordgo.Message
@@ -29,7 +31,17 @@ func discordStart() {
 
 	p(s.Open())
 
-	guild, err = s.State.Guild(os.Getenv("SERVER"))
+	c := make(chan struct{})
+
+	s.AddHandlerOnce(func(s *discordgo.Session, r *discordgo.Ready) {
+		c <- struct{}{}
+	})
+
+	log.Println("Waiting for ready...")
+
+	<-c
+	log.Println("Ready recieved")
+	guild, err = s.Guild(os.Getenv("SERVER"))
 	p(err)
 
 	reply, err := db.Query("SELECT myblob FROM mydata WHERE myname = 'store'")
