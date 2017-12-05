@@ -21,7 +21,6 @@ type messageSet struct{
 var s *discordgo.Session
 var pinmap = map[string]*messageSet{} //Map of CHANNEL ID to STRUCT with MAP OF MESSAGE ID TO BOOLEAN and SORTED ARRAY OF MESSAGES
 var guild *discordgo.Guild
-var checkTimes = map[string]time.Time{}
 
 
 func discordStart() {
@@ -48,11 +47,18 @@ func discordStart() {
 	if err == nil {
 		p(json.Unmarshal(file, &pinmap))
 	}
+
+	tick := time.NewTicker(time.Hour)
+	defer func() {tick.Stop()}()
+	go func() {
+		for range tick.C {
+			discordCheckAll(guild.Channels, 10*time.Second)
+		}
+	}()
 }
 
 func discordCheck(ids ...string) {
 	for _, id := range ids {
-		checkTimes[id] = time.Now()
 		if _, ok := pinmap[id]; !ok {
 			pinmap[id] = &messageSet{Items: make([]*discordgo.Message, 0), Set: make(map[string]bool)}
 		}
@@ -69,6 +75,13 @@ func discordCheck(ids ...string) {
 	data, err := json.Marshal(pinmap)
 	p(err)
 	check(ioutil.WriteFile("store.json", data, 0666))
+}
+
+func discordCheckAll(channels []*discordgo.Channel, d time.Duration) {
+	for _, channel := range channels {
+		discordCheck(channel.ID)
+		time.Sleep(d)
+	}
 }
 
 func (by messageArray) Len() int {

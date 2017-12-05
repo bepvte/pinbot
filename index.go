@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"github.com/bwmarrin/discordgo"
 	"github.com/go-chi/chi"
+	"io"
 	"time"
 )
 
@@ -23,9 +24,6 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 
 func channelHandler(w http.ResponseWriter, r *http.Request) {
 	channelID := chi.URLParam(r, "ID")
-	if checkTimes[channelID].IsZero() && time.Now().Sub(checkTimes[channelID]) >= time.Hour {
-		discordCheck(channelID)
-	}
 	channel, err := s.State.Channel(channelID)
 	if check(err) {
 		failed(w, err)
@@ -37,5 +35,6 @@ func channelHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func reloadhandler(w http.ResponseWriter, r *http.Request) {
-	checkTimes = make(map[string]time.Time)
+	discordCheckAll(guild.Channels, time.Second*0)
+	io.WriteString(w, "Its refreshing! (as far as i can tell)")
 }
