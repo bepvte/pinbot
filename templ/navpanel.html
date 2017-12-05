@@ -1,0 +1,21 @@
+{{define "tabs"}}
+<div class="tabs">
+    <ul>
+        {{range .}}{{if eq .Type 0}}<li><a href="/{{.ID}}">{{.Name}}</a></li>{{end}}{{end}}
+    </ul>
+</div>
+{{end}}        // T1.tmpl defines a template, T1 that invokes T2. Note T2 is not defined
+        {"T1.tmpl", `{{define "T1"}}T1 invokes T2: ({{template "T2"}}){{end}}`},
+})
+// Clean up after the test; another quirk of running as an example.
+defer os.RemoveAll(dir)
+
+// pattern is the glob pattern used to find all the template files.
+pattern := filepath.Join(dir, "*.tmpl")
+
+// Here starts the example proper.
+// Load the drivers.
+drivers := template.Must(template.ParseGlob(pattern))
+
+// We must define an implementation of the T2 template. First we clone
+// the drivers, then add a definition of T2 to the template name space.
