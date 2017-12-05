@@ -1,13 +1,13 @@
 {{template "header" .Current.Name}}
-<div class="theme-dark">
+<div class="theme-dark columns">
     <div class="column is-one-quarter">
     {{template "tabs" .Channels}}
     </div>
-    <div class="messages-wrapper">
+    <div class="messages-wrapper column">
     {{range .Pins}}
         <div class="message-group hide-overflow">
             <div class="avatar-large animate"
-                 style="background-image: url('https://cdn.discordapp.com/avatars/%7B%7B.Author.ID%7D%7D/%7B%7B.Author.Avatar%7D%7D.png');"></div>
+                 style="background-image: url('https://cdn.discordapp.com/avatars/{{.Author.ID}}/{{.Author.Avatar}}.png');"></div>
             <div class="comment">
                 <div class="message first">
                     <div class="body">
