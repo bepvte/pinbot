@@ -47,6 +47,7 @@ func discordStart() {
 
 func discordCheck(ids ...string) {
 	for _, id := range ids {
+		checkTimes[id] = time.Now()
 		if _, ok := pinmap[id]; !ok {
 			pinmap[id] = &messageSet{Items: make([]*discordgo.Message, 0), Set: make(map[string]bool)}
 		}
@@ -59,7 +60,6 @@ func discordCheck(ids ...string) {
 				sort.Sort(sort.Reverse(pinmap[id].Items))
 			}
 		}
-		checkTimes[id] = time.Now()
 	}
 	data, err := json.Marshal(pinmap)
 	p(err)

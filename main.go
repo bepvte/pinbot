@@ -33,8 +33,9 @@ func main() {
 
 	r.Use(middleware.Recoverer, middleware.Logger, middleware.StripSlashes)
 
+	r.Get("/favicon.ico", http.NotFound)
 	r.Get("/", indexHandler)
-	r.Get("/{ID}", channelHandler)
+	r.Get("/{ID:[\\d]}", channelHandler)
 
 
 	log.Println("Listening on port :"+os.Getenv("PORT"))
