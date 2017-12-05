@@ -39,7 +39,7 @@ func discordStart() {
 
 	<-c
 	log.Println("Ready recieved")
-	guild, err = s.State.Guild(os.Getenv("SERVER"))
+	guild, err = s.Guild(os.Getenv("SERVER"))
 	p(err)
 
 	file, err := ioutil.ReadFile("store.json")
