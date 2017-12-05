@@ -1,34 +1,37 @@
 {{template "header" .Current.Name}}
-<div class="columns">
+<div class="theme-dark">
     <div class="column is-one-quarter">
     {{template "tabs" .Channels}}
     </div>
-<div class="column">
-{{range .Pins}}
-    <div class="box">
-        <article class="media">
-            <figure class="media-left">
-                <p class="image is-64x64">
-                    <img src="https://cdn.discordapp.com/avatars/{{.Author.ID}}/{{.Author.Avatar}}.png">
-                </p>
-            </figure>
-            <div class="media-content">
-                <p>
-                    <strong>{{.Author.Username}}</strong> <small>{{.Timestamp.Parse.Format "Jan _2 15:04:05"}}</small>
-                    <br> {{.ContentWithMentionsReplaced}}
-                </p>
-            {{if .Attachments}}
-                <br>
-                <div class="columns" style="width: 70%">
-                {{range .Attachments}}
-                    <div class="column"><img src="{{.URL}}"></div>
+    <div class="messages-wrapper">
+    {{range .Pins}}
+        <div class="message-group hide-overflow">
+            <div class="avatar-large animate"
+                 style="background-image: url('https://cdn.discordapp.com/avatars/%7B%7B.Author.ID%7D%7D/%7B%7B.Author.Avatar%7D%7D.png');"></div>
+            <div class="comment">
+                <div class="message first">
+                    <div class="body">
+                        <h2 class="old-h2"><span class="username-wrapper"><strong
+                                class="user-name">{{.Author.Username}}</strong></span><span class="highlight-separator"> - </span><span
+                                class="timestamp">{{.Timestamp.Parse.Format "Jan _2 15:04:05"}}</span></h2>
+                        <div class="message-text">
+                            <div class="markup">{{.ContentWithMentionsReplaced}}</div>
+                        </div>
+                    </div>
+                {{if .Attachments}}
+                    <div class="accessory">
+                    {{range .Attachments}}
+                        <div class="attachment-image">
+                            <a href="{{.URL}}" target="_blank" rel="noreferrer"><img class="image" src="{{.URL}}"
+                                                                                     href="{{.URL}}"></a>
+                        </div>
+                    {{end}}
+                    </div>
                 {{end}}
                 </div>
-            {{end}}
             </div>
-        </article>
+        </div>
+    {{end}}
     </div>
-{{end}}
-</div>
 </div>
 {{template "footer"}}

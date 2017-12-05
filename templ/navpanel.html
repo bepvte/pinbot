@@ -1,7 +1,8 @@
 {{define "tabs"}}
 <aside class="menu">
     <ul class="menu-list">
-        {{range .}}{{if eq .Type 0}}<li><a href="/{{.ID}}">{{.Name}}</a></li>{{end}}{{end}}
+    {{range .}}{{if eq .Type 0}}
+        <li><a href="/{{.ID}}">{{.Name}}</a></li>{{end}}{{end}}
     </ul>
 </aside>
 {{end}}
