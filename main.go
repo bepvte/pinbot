@@ -27,7 +27,7 @@ func main() {
 
 	t = template.Must(template.ParseGlob("templ/*"))
 
-	discordStart()
+	go discordStart()
 
 	r := chi.NewRouter()
 

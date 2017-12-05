@@ -51,7 +51,7 @@ func discordStart() {
 		p(err)
 		json.Unmarshal(resp, &pinmap)
 	}
-	discordCheck(guild.Channels[0].ID)
+	time.Sleep(5*time.Second)
 }
 
 func discordCheck(ids ...string) {
