@@ -50,9 +50,9 @@ func discordStart() {
 	time.Sleep(4*time.Second)
 	discordCheckAll(guild.Channels, 0)
 	tick := time.NewTicker(time.Hour)
-	defer func() { tick.Stop() }()
 	go func() {
 		for range tick.C {
+			log.Println("Checking at ", time.Now().Format(time.Stamp))
 			discordCheckAll(guild.Channels, 3*time.Second)
 		}
 	}()
