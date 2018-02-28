@@ -42,7 +42,7 @@ func discordStart() {
 	guild, err = s.Guild(os.Getenv("SERVER"))
 	p(err)
 
-	file, err := ioutil.ReadFile("store.json")
+	file, err := ioutil.ReadFile(os.Getenv("HOME")+"/store.json")
 	if err == nil {
 		p(json.Unmarshal(file, &pinmap))
 	}
@@ -75,7 +75,7 @@ func discordCheck(ids ...string) {
 	}
 	data, err := json.Marshal(pinmap)
 	check(err)
-	check(ioutil.WriteFile("store.json", data, 0666))
+	check(ioutil.WriteFile(os.Getenv("HOME")+"/store.json", data, 0666))
 }
 
 func discordCheckAll(channels []*discordgo.Channel, d time.Duration) {
