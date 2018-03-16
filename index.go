@@ -1,11 +1,12 @@
 package main
 
 import (
-	"github.com/bwmarrin/discordgo"
-	"github.com/go-chi/chi"
 	"io"
 	"net/http"
 	"time"
+
+	"github.com/bwmarrin/discordgo"
+	"github.com/go-chi/chi"
 )
 
 type channelPage struct {

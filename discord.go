@@ -1,14 +1,16 @@
 package main
 
 import (
-	"encoding/json"
-	"github.com/bwmarrin/discordgo"
-	"io/ioutil"
+	"io"
 	"log"
 	"os"
 	"sort"
 	"strconv"
 	"time"
+
+	"github.com/vmihailenco/msgpack"
+
+	"github.com/bwmarrin/discordgo"
 )
 
 type messageArray []*discordgo.Message
@@ -25,15 +27,16 @@ var guild *discordgo.Guild
 func discordStart() {
 	var err error
 	s, err = discordgo.New("Bot " + os.Getenv("TOKEN"))
-	p(err)
+	s.LogLevel = discordgo.LogInformational
 
-	p(s.Open())
+	p(err)
 
 	c := make(chan struct{})
 
 	s.AddHandlerOnce(func(s *discordgo.Session, r *discordgo.Ready) {
 		c <- struct{}{}
 	})
+	p(s.Open())
 
 	log.Println("Waiting for ready...")
 
@@ -42,12 +45,16 @@ func discordStart() {
 	guild, err = s.Guild(os.Getenv("SERVER"))
 	p(err)
 
-	file, err := ioutil.ReadFile(os.Getenv("HOME")+"/store.json")
-	if err == nil {
-		p(json.Unmarshal(file, &pinmap))
+	file, err := os.OpenFile(os.Getenv("HOME")+"/pinbot.msgp", os.O_RDWR|os.O_CREATE, 0755)
+	if err != nil {
+		log.Println("failed to open pinbot.msgp")
+	} else {
+		if err := msgpack.NewDecoder(file).UseJSONTag(true).Decode(&pinmap); err != io.EOF && err != nil {
+			panic(err)
+		}
 	}
 
-	time.Sleep(4*time.Second)
+	time.Sleep(4 * time.Second)
 	discordCheckAll(guild.Channels, 0)
 	tick := time.NewTicker(time.Hour)
 	go func() {
@@ -73,9 +80,13 @@ func discordCheck(ids ...string) {
 			}
 		}
 	}
-	data, err := json.Marshal(pinmap)
-	check(err)
-	check(ioutil.WriteFile(os.Getenv("HOME")+"/store.json", data, 0666))
+	file, err := os.OpenFile(os.Getenv("HOME")+"/pinbot.msgp", os.O_RDWR|os.O_CREATE, 0775)
+	if err != nil {
+		panic(err)
+	}
+	if err := msgpack.NewEncoder(file).UseJSONTag(true).Encode(&pinmap); err != nil {
+		panic(err)
+	}
 }
 
 func discordCheckAll(channels []*discordgo.Channel, d time.Duration) {
