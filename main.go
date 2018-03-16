@@ -1,17 +1,21 @@
 package main
 
 import (
-	"github.com/go-chi/chi"
-	"github.com/go-chi/chi/middleware"
 	"html/template"
 	"log"
 	"net/http"
 	"os"
+
+	"github.com/go-chi/chi"
+	"github.com/go-chi/chi/middleware"
 )
 
 var t *template.Template
 
 func main() {
+	if os.Getenv("HOME") == "" {
+		log.Fatalln("HOME isnt set")
+	}
 	t = template.Must(template.ParseGlob("templ/*"))
 
 	go discordStart()
