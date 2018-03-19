@@ -51,7 +51,7 @@ func discordStart() {
 	if err != nil {
 		log.Println("failed to open pinbot.msgp")
 	} else {
-		cmd := exec.Command("xz", "-c")
+		cmd := exec.Command("unxz", "-c")
 		cmd.Stdin = file
 		stdout, err := cmd.StdoutPipe()
 		if err != nil {
@@ -94,7 +94,7 @@ func discordCheck(ids ...string) {
 	if err != nil {
 		panic(err)
 	}
-	cmd := exec.Command("unxz", "-c")
+	cmd := exec.Command("xz", "-c")
 	cmd.Stdout = file
 	stdin, err := cmd.StdinPipe()
 	if err != nil {
