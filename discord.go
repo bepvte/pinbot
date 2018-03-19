@@ -94,7 +94,7 @@ func discordCheck(ids ...string) {
 	if err != nil {
 		panic(err)
 	}
-	cmd := exec.Command("xz", "-c")
+	cmd := exec.Command("unxz", "-c")
 	cmd.Stdout = file
 	stdin, err := cmd.StdinPipe()
 	if err != nil {
