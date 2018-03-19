@@ -1,9 +1,11 @@
 package main
 
 import (
+	"fmt"
 	"io"
 	"log"
 	"os"
+	"os/exec"
 	"sort"
 	"strconv"
 	"time"
@@ -45,13 +47,21 @@ func discordStart() {
 	guild, err = s.Guild(os.Getenv("SERVER"))
 	p(err)
 
-	file, err := os.OpenFile(os.Getenv("HOME")+"/pinbot.msgp", os.O_RDWR|os.O_CREATE, 0755)
+	file, err := os.OpenFile(os.Getenv("HOME")+"/pinbot.msgp.xz", os.O_RDWR|os.O_CREATE, 0755)
 	if err != nil {
 		log.Println("failed to open pinbot.msgp")
 	} else {
-		if err := msgpack.NewDecoder(file).UseJSONTag(true).Decode(&pinmap); err != io.EOF && err != nil {
+		cmd := exec.Command("xz", "-c")
+		cmd.Stdin = file
+		stdout, err := cmd.StdoutPipe()
+		if err != nil {
 			panic(err)
 		}
+		if err := msgpack.NewDecoder(stdout).UseJSONTag(true).Decode(&pinmap); err != io.EOF && err != nil {
+			panic(err)
+		}
+		stdout.Close()
+		cmd.Wait()
 	}
 
 	time.Sleep(4 * time.Second)
@@ -80,13 +90,22 @@ func discordCheck(ids ...string) {
 			}
 		}
 	}
-	file, err := os.OpenFile(os.Getenv("HOME")+"/pinbot.msgp", os.O_RDWR|os.O_CREATE, 0775)
+	file, err := os.OpenFile(os.Getenv("HOME")+"/pinbot.msgp.xz", os.O_RDWR|os.O_CREATE, 0775)
 	if err != nil {
 		panic(err)
 	}
-	if err := msgpack.NewEncoder(file).UseJSONTag(true).Encode(&pinmap); err != nil {
+	cmd := exec.Command("xz", "-c")
+	cmd.Stdout = file
+	stdin, err := cmd.StdinPipe()
+	if err != nil {
 		panic(err)
 	}
+	if err := msgpack.NewEncoder(stdin).UseJSONTag(true).Encode(&pinmap); err != nil {
+		panic(err)
+	}
+	stdin.Close()
+	cmd.Wait()
+	fmt.Println("DEBUG done")
 }
 
 func discordCheckAll(channels []*discordgo.Channel, d time.Duration) {
